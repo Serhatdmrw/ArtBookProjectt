@@ -66,8 +66,8 @@
 		DA3F06D929DB1791000F89EC /* ArtBookProject */ = {
 			isa = PBXGroup;
 			children = (
-				DA979E6729DCBAD7006E3DA3 /* Screens */,
 				DA979E6629DCBAB7006E3DA3 /* Delegates */,
+				DA979E6729DCBAD7006E3DA3 /* Screens */,
 				DA3F06E629DB1794000F89EC /* Assets.xcassets */,
 				DA3F06E829DB1794000F89EC /* LaunchScreen.storyboard */,
 				DA3F06EB29DB1794000F89EC /* Info.plist */,
@@ -88,8 +88,8 @@
 		DA979E6729DCBAD7006E3DA3 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				DA979E6929DCBB28006E3DA3 /* Details */,
 				DA979E6829DCBB14006E3DA3 /* Home */,
+				DA979E6929DCBB28006E3DA3 /* Details */,
 			);
 			path = Screens;
 			sourceTree = "<group>";

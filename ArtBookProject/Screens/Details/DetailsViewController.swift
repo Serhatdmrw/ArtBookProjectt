@@ -27,6 +27,23 @@ class DetailsViewController: UIViewController {
         
         addDelegates()
         addGestureRecognizer()
+        addKeyboardGestureRecognizer()
+        ifChosenPainting()
+    }
+    
+    // MARK: - Actions
+    @IBAction func saveButton(_ sender: Any) {
+        
+        DetailsViewModel().saveData(name: nameText.text!, artist: artistText.text!, year: yearText.text!, image: imageView)
+        NotificationCenter.default.post(name: NSNotification.Name("newData"), object: nil)
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+// MARK: - Helpers
+private extension DetailsViewController {
+    
+    func ifChosenPainting() {
         if chosenPainting != "" {
             viewModel.filteringData(id: chosenPaintingId, selectedName: &nameText.text!, selectedArtist: &artistText.text!, selectedYear: &yearText.text!, selectedImage: imageView)
         } else {
@@ -36,16 +53,14 @@ class DetailsViewController: UIViewController {
         }
     }
     
-    // MARK: - Actions
-    @IBAction func saveButton(_ sender: Any) {
-        DetailsViewModel().saveData(name: nameText.text!, artist: artistText.text!, year: yearText.text!, image: imageView)
-        NotificationCenter.default.post(name: NSNotification.Name("newData"), object: nil)
-        navigationController?.popViewController(animated: true)
+    func addKeyboardGestureRecognizer() {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(gestureRecognizer)
     }
-}
-
-// MARK: - Helpers
-private extension DetailsViewController {
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
+    }
     
     func addDelegates() {
         viewModel.delegate = self

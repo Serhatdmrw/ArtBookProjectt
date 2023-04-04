@@ -12,8 +12,7 @@ import CoreData
 protocol HomeViewModelDelegate:AnyObject {
     func didGetDataSuccess(nameArray : [String], idArray: [UUID])
     func didGetDataFail(messega : String)
-
-    
+    func didCommitDataFail(messega : String)
 }
 
 class HomeViewModel {
@@ -22,13 +21,13 @@ class HomeViewModel {
     
     var nameArray = [String]()
     var idArray = [UUID]()
+    var id = UUID()
 
-    
     func getData() {
         
         nameArray.removeAll()
         idArray.removeAll()
-        
+    
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         
@@ -50,5 +49,33 @@ class HomeViewModel {
             delegate?.didGetDataFail(messega: error.localizedDescription)
         }
     }
+    
+    func commitData(idS : UUID) {
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Paintings")
+        
+        fetchRequest.returnsObjectsAsFaults = true
+        let idString = idS.uuidString
+        fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            for result in results as! [NSManagedObject] {
+                if let id = result.value(forKey: "id") as? UUID {
+                    if id == idS {
+                        context.delete(result)
+                        do {
+                            try context.save()
+                        } catch {
+                            print("error")
+                        }
+                    }
+                }
+            }
+        } catch {
+            delegate?.didCommitDataFail(messega: error.localizedDescription)
+        }
+    }
 }
-

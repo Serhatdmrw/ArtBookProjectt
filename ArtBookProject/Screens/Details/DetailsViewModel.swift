@@ -12,7 +12,6 @@ import CoreData
 protocol DetailsViewModelDelegate:AnyObject {
     func didSaveDataFail(messega: String)
     func didFilteringData(messega: String)
-   
 }
 
 class DetailsViewModel {
