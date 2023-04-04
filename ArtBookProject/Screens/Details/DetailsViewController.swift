@@ -18,12 +18,22 @@ class DetailsViewController: UIViewController {
     
     // MARK: - Properties
     private let viewModel = DetailsViewModel()
+    var chosenPainting = ""
+    var chosenPaintingId = UUID()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         addDelegates()
         addGestureRecognizer()
+        if chosenPainting != "" {
+            viewModel.filteringData(id: chosenPaintingId, selectedName: &nameText.text!, selectedArtist: &artistText.text!, selectedYear: &yearText.text!, selectedImage: imageView)
+        } else {
+            nameText.text = ""
+            yearText.text = ""
+            artistText.text = ""
+        }
     }
     
     // MARK: - Actions
@@ -73,6 +83,10 @@ extension DetailsViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 // MARK: - DetailsViewModelDelegate
 extension DetailsViewController: DetailsViewModelDelegate {
+    func didFilteringData(messega: String) {
+        self.makeAlert(tittleInput: "Error", messegaInput: messega)
+    }
+    
     func didSaveDataFail(messega: String) {
         self.makeAlert(tittleInput: "Error", messegaInput: messega)
     }

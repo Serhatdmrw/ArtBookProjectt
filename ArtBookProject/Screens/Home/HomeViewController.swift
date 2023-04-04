@@ -60,7 +60,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(DetailsViewController(), animated: true)
+        let detailsViewController = DetailsViewController()
+        detailsViewController.chosenPainting = self.nameArray[indexPath.row]
+        detailsViewController.chosenPaintingId = self.idArray[indexPath.row]
+        navigationController?.pushViewController(detailsViewController, animated: true)
     }
 }
 
